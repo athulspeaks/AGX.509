@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Generate your free SSL certificate with OLYNX SSL">
+<meta name="author" content="Athuljith">
+<link rel="icon" href="aj-project/img/favicon.png" type="image/x-icon">
+<title>SSL Automation by Olynx SSL
+</title>
+<link rel="stylesheet" href="aj-project/css/athuljith.css">
+<style>.loader{position:fixed;left:0;top:0;width:100%;height:100%;background-color:#f5f8fa;z-index:9998;text-align:center}.plane-container{position:absolute;top:50%;left:50%}
+</style>
+<script src="js/asn1js/int10.js"></script>
+<script src="js/asn1js/base64.js"></script>
+<script src="js/asn1js/hex.js"></script>
+<script src="js/asn1js/asn1.js"></script>
+</head>
+<body>
+<div id="loader" class="loader">
+</div>
+<div id="app" class="athuljith-loading">
+<div class="mini-nav nav-offcanvas nav-offcanvas-desktop"><nav class="mainnav navbar navbar-default justify-content-between">
+</nav>
+</div>
+<main class="single"> 
+    <section class="text-white has-overlay" data-bg-possition="center" style="background: url()">
+<div class="container">
+<div class="p-t-b-80  text-center"><br/><br/>
+<p class="subtitle">Web client &amp; Security</p><h1 class="s-48">Getting Started With Olynx SSL</h1>
+<br/><br/>
+</div>
+</div>
+<div class="overlay" data-start="#333A43" data-opacity=".8">
+</div></section>
+<div class="content-wrapper">
+<div class="container">
+<div class="col-xl-8 mx-md-auto ">
+
+    <h2 id="digest_error" class="error" style="display:none;">
+        ERROR: Your browser is not compatible with this website (this website
+        needs WebCryptoAPI's crypto.subtle.digest()). Please upgrade to a modern
+        browser (Firefox, Chrome, Safari, IE 11+).
+    </h2><br/>
+    <center><h2>LET'S ANALYSE THE GENERATED PUBLIC KEY</h2></center><br/><br/>
+
+    <div class="field">
+        <input id="email" type="text" class="form-control form-control-lg" placeholder="what's your e-mail id ? "/>
+    </div>
+    <br/>
+    <div class="field">
+        <div class="help-content">
+            USE OPEN SSL TO GENERATE ACCOUNT KEY PAIR:<br/>
+            <ol>
+                <li>
+                    MAKE AN ACCOUNT PRIVATE KEY USING :<br/>
+                    <code>openssl genrsa 4096 > account.key</code>
+                </li>
+                <li>
+                    PRINT YOUR KEY ON SHELL:<br/>
+                    <code>openssl rsa -in account.key -pubout</code>
+                </li>
+                <li>
+                    LET'S PASTE THE PUBLIC KEY INTO THE BOX.<br/>
+                </li>
+            </ol>
+        </div>
+        <label for="pubkey">YOUR PUBLIC KEY:</label><br/>
+        <textarea id="pubkey" class="form-control form-control-lg" placeholder="-----BEGIN PUBLIC KEY----- ..."></textarea>
+    </div><br/><center>
+
+    <div class="field">
+        <input id="validate_account" class="btn-primary btn-lg btn blue" type="submit" value="VALIDATE YOUR DETAILS WITH PUBLIC KEY"/>
+        <span id="validate_account_status" style="display:none;"></span>
+    </div>
+</center>
+    <hr/>
+<br/>
+    <center><h2>EXPLAIN ABOUT YOUR DOMAIN'S</h2></center><br/>
+
+    <div class="field">
+        <div class="help-content">
+            CREATE YOUR CERTIFICATE SIGNING REQUEST WITH:<br/>
+            <ol>
+                <li>
+                    IF YOU DO NOT HAVE ANY TLS PRIVATE KEY:<br/>
+                    <code>openssl genrsa 4096 > domain.key</code>
+                </li>
+                <li>
+                    MAKE CSR FOR THE DOMAINS YOU WANT TO USE:</br>
+                    Linux:
+                    <pre>
+#change "/etc/ssl/openssl.cnf" as needed:
+#  Debian: /etc/ssl/openssl.cnf
+#  RHEL and CentOS: /etc/pki/tls/openssl.cnf
+#  Mac OSX: /System/Library/OpenSSL/openssl.cnf
+
+openssl req -new -sha256 -key domain.key -subj "/" \
+  -reqexts SAN -config &lt;(cat /etc/ssl/openssl.cnf \
+  &lt;(printf "\n[SAN]\nsubjectAltName=DNS:athuljith.com,DNS:www.athuljith.com"))
+</pre>
+                </li>
+                <li>
+                    LET'S PASTE THE CSR INTO THE BOX.<br/>
+                </li>
+            </ol>
+        </div>
+        <label for="csr">CERTIFICATE SIGNING REQUEST:</label><br/>
+        <textarea id="csr" class="form-control form-control-lg" placeholder="-----BEGIN CERTIFICATE REQUEST----- ..."></textarea>
+    </div><br/><center>
+
+    <div class="field">
+        <input id="validate_csr" class="btn-primary btn-lg btn blue" type="submit" value="EXPLAIN ABOUT YOUR DOMAIN DETAILS"/>
+        <span id="validate_csr_status" style="display:none;"></span>
+    </div>
+</center>
+    <hr/>
+<br/>
+    <center>
+    <h2>GETTING START WITH SIGNATURE GENERATION<span id="step3_pending"></span></h2></center>
+    <div id="step3" style="display:none;">
+        
+
+        <div class="field">
+            <div class="help-content">
+                GENERATE NEEDED SIGNATURES YOU WANT:<br/>
+                <ol>
+                    <li>
+                        COPY AND PASTE EACH COMMAND SHOWN BELOW
+                    </li>
+                    <li>
+                        AFTER THAT COPY AND PASTE EACH COMMANDS OUTPUT YOU GOT .
+                    </li>
+                </ol>
+            </div>
+            <label>RUN THIS HEX-CODE GENERATOR'S IN YOUR SHELL:</label><br/>
+            <span id="step3_commands">
+            </span>
+            <span id="signing_template" style="display:none;">
+                <input class="form-control form-control-lg" type="text" value="echo ..." readonly/><br/>
+                <input id="challenge_sig_foobar_com" class="form-control form-control-lg" type="text" placeholder='HEX CODE OUTPUT HERE (e.g. "(stdin)= f2cf67e4...")'/><br/>
+            </span>
+        </div><br/><center>
+
+        <div class="field">
+            <input id="validate_initial_sigs" class="btn-primary btn-lg btn blue" type="submit" value="VALIDATE HEX CODE WITH A CLICK"/>
+            <span id="validate_initial_sigs_status" style="display:none;"></span>
+        </div></center>
+    </div>
+
+    <hr/>
+<br/>
+    <center>
+    <h2>VERIFY YOUR DOMAIN NAME'S WITH "OLYNX"<span id="step4_pending"></span></h2></center>
+    <div id="step4" style="display:none;">
+          
+    
+            <div id="challenge_domains">
+            </div>
+    
+            <div id="challenge_template" style="display:none;"><br/><br/>
+               <center> <h3>Your Domain: <span class="domain">foobar.com</span></h3></center><br/><br/>
+    
+                <div class="field"><div style="display:none">
+                    <label class="howto_sign_label help">(how do I do this?)</label>
+                    <input class="howto_sign help-checkbox" type="checkbox"/></div>
+                    <div class="help-content">
+                        GENERATE NEEDED SIGNATURES YOU WANT:<br/><br/>
+                        <ol>
+                            <li>
+                                LET'S GO TO THE ACCOUNT.KEY PATH WHERE YOU SAVED
+                            </li>
+                            <li>
+                                COPY AND PASTE EACH COMMANDS
+                            </li>
+                            <li>
+                                WE NEED THE HEX-CODED OUTPUT TO BE PASTED HERE.
+                            </li>
+                        </ol>
+                    </div>
+                    <label>RUN THIS HEX-CODE GENERATOR IN YOUR SHELL:</label><br/>
+                    <span class="step4_commands">
+                    </span>
+                </div>
+    
+                <div class="field tabs">
+                    <input type="radio" checked/>
+                    <label>Option 1 - python server</label>
+                    <input type="radio">
+                    <label>Option 2 - file-based</label>
+                
+                    <br/>
+    
+                    <div class="tab"><div style="display:none">
+                        <label class="howto_serve_label help">(how do I do this?)</label>
+                        <input class="howto_serve help-checkbox" type="checkbox"/></div><br/>
+                        <div class="help-content">
+                            LET'S SERVE THE RESPONSE WITH YOUR DOMAIN:<br/><br/>
+                            <ol>
+                                <li>
+                                    SUDO PERMISSION NEEDED ON SSH ACCESS NOW:<br/>
+                                    <code class="ssh">ssh ubuntu@foobar.com</code>
+                                </li>
+                                <li>
+                                    PORT 80 RUNNING WEBSERVER SHOULD BE STOP NOW.<br/>
+                                    <code>sudo service nginx stop</code> &lt;-- example for nginx<br/><br/>
+                                    <code>sudo apachectl -k graceful-stop</code> &lt;-- example for apache
+                                </li>
+                                <li>
+                                    LET'S COPY AND PASTE THE COMMAND IN YOUR TERMINAL
+                                </li>
+                                <li>
+                                    THIS LINK WILL HELP YOU TO VERIFY YOUR PATH ON DOMAIN:<br/>
+                                    <a target="_blank"></a>
+                                </li>
+                                <li>
+                                    CLICK ON THE FINAL BUTTON BELOW
+                                </li>
+                            </ol>
+                        </div>
+                        <label>LET'S RUN THIS ON <span class="domain">foobar.com</span>'s SERVER:</label><br/>
+                        <textarea class="form-control form-control-lg" readonly></textarea><br/><center>
+                        <div>
+                            <input class="btn-primary btn-lg btn blue" type="submit" value="I HAVE COMPLATED THIS FOR foobar.com"/>
+                            <span style="display:none;"></span>
+                        </div></center>
+                    </div>
+    <br/><br/>
+                    <div class="tab"><div style="display:none">
+                        <label class="howto_file_label help">(how do I do this?)</label>
+                        <input class="howto_file help-checkbox" type="checkbox"/></div>
+                        <div class="help-content">
+                            LET'S UPLOAD THE FILE WITH YOUR DOMAIN:<br/><br/>
+                            <ol>
+                                <li>
+                                    SSH ACCESS NEEDED WITH SUDO PERMISSIONS:<br/>
+                                    <pre class="ssh">ssh ubuntu@foobar.com</pre>
+                                </li>
+                                <li>
+                                    LET'S MAKE THE ".well-known/acme-challenge/" DIRECTORY:<br/>
+                                    <pre class="wwwdir">mkdir -p /path/to/www/.well-known/acme-challenge/</pre>
+                                </li>
+                                <li>
+                                    WEB SERVERS CONFIG SHOULD CONTAIN THAT STATIC FOLDER:<br/>
+                                    <pre class="nginx_location">server {...</pre>
+                                </li>
+                                <li>
+                                    MAKE A FILE PATH INCLUDE NEEDED CONTENTS:<br/>
+                                    <pre class="file_cmd">echo ...</pre>
+                                </li>
+                                <li>
+                                    LET'S MAKE SURE THAT YOUR UPLOAD WORKS WELL:<br/>
+                                    <a target="_blank"></a>
+                                </li>
+                                <li>
+                                    CLICK ON THE FINAL BUTTON WITH THE PYTHON SERVER ABOVE IF THE FILE BASED CREATED ONECE.
+                                </li>
+                            </ol>
+                        </div>
+                        <label>ON THIS URL LINK:</label><br/>
+                        <input type="text" class="form-control form-control-lg file_url"  value="" readonly/>
+                        <div>
+                            <label>SHARE THIS CONTENT:</label>
+                            <input  type="text" class="form-control form-control-lg file_data"  value="" readonly/>
+                        </div><br/><center>
+                        <div>
+                            <input  type="submit" class="btn-primary btn-lg btn blue file_submit" value="I HAVE UPLOADED THIS ON foobar.com"/>
+                            <span style="display:none;"></span>
+                        </div></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <hr/>
+<br/><center>
+    <h2>HOORRAYY !!! INSTALL YOUR SSL CERTIFICATE <span id="step5_pending"></span></h2></center>
+    <div id="step5" style="display:none;">
+        <div><center>
+            WELL DONE ... AFTER ALL SUCCESFULL COMMENTS AND VERIFICATION YOU HAVE RECEIVED AND " OLYNX SSL CERTIFICATE " LET'S UPLOAD AND SECURE YOUR WEBSITE WITH HIGHLY SECURED SSL CERTIFICATE .</center>
+        </div>
+<br/>
+        <div class="field">
+           <center>
+            <label for="csr">SIGNED CERFTIFICATE FROM " OLYNX SSL " : CRT</label></center><br/>
+            <textarea id="crt" class="form-control form-control-lg" readonly></textarea>
+        </div>
+        <br/>
+        <div class="field"><center>
+            <label for="csr">INTERMEDIATE CERTIFICATE OR CABUNDLE</label></center><br/>
+<textarea class="form-control form-control-lg" readonly>
+-----BEGIN CERTIFICATE-----
+MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
+MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT
+DkRTVCBSb290IENBIFgzMB4XDTE2MDMxNzE2NDA0NloXDTIxMDMxNzE2NDA0Nlow
+SjELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUxldCdzIEVuY3J5cHQxIzAhBgNVBAMT
+GkxldCdzIEVuY3J5cHQgQXV0aG9yaXR5IFgzMIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEAnNMM8FrlLke3cl03g7NoYzDq1zUmGSXhvb418XCSL7e4S0EF
+q6meNQhY7LEqxGiHC6PjdeTm86dicbp5gWAf15Gan/PQeGdxyGkOlZHP/uaZ6WA8
+SMx+yk13EiSdRxta67nsHjcAHJyse6cF6s5K671B5TaYucv9bTyWaN8jKkKQDIZ0
+Z8h/pZq4UmEUEz9l6YKHy9v6Dlb2honzhT+Xhq+w3Brvaw2VFn3EK6BlspkENnWA
+a6xK8xuQSXgvopZPKiAlKQTGdMDQMc2PMTiVFrqoM7hD8bEfwzB/onkxEz0tNvjj
+/PIzark5McWvxI0NHWQWM6r6hCm21AvA2H3DkwIDAQABo4IBfTCCAXkwEgYDVR0T
+AQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAYYwfwYIKwYBBQUHAQEEczBxMDIG
+CCsGAQUFBzABhiZodHRwOi8vaXNyZy50cnVzdGlkLm9jc3AuaWRlbnRydXN0LmNv
+bTA7BggrBgEFBQcwAoYvaHR0cDovL2FwcHMuaWRlbnRydXN0LmNvbS9yb290cy9k
+c3Ryb290Y2F4My5wN2MwHwYDVR0jBBgwFoAUxKexpHsscfrb4UuQdf/EFWCFiRAw
+VAYDVR0gBE0wSzAIBgZngQwBAgEwPwYLKwYBBAGC3xMBAQEwMDAuBggrBgEFBQcC
+ARYiaHR0cDovL2Nwcy5yb290LXgxLmxldHNlbmNyeXB0Lm9yZzA8BgNVHR8ENTAz
+MDGgL6AthitodHRwOi8vY3JsLmlkZW50cnVzdC5jb20vRFNUUk9PVENBWDNDUkwu
+Y3JsMB0GA1UdDgQWBBSoSmpjBH3duubRObemRWXv86jsoTANBgkqhkiG9w0BAQsF
+AAOCAQEA3TPXEfNjWDjdGBX7CVW+dla5cEilaUcne8IkCJLxWh9KEik3JHRRHGJo
+uM2VcGfl96S8TihRzZvoroed6ti6WqEBmtzw3Wodatg+VyOeph4EYpr/1wXKtx8/
+wApIvJSwtmVi4MFU5aMqrSDE6ea73Mj2tcMyo5jMd6jmeWUHK8so/joWUoHOUgwu
+X4Po1QYz+3dszkDqMp4fklxBwXRsW10KXzPMTZ+sOPAveyxindmjkW8lGy+QsRlG
+PfZ+G6Z6h7mjem0Y+iWlkYcV4PIWL1iwBi8saCbGS5jN2p8M+X+Q7UNKEkROb3N6
+KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==
+-----END CERTIFICATE-----
+</textarea>
+        </div>
+<br/><center>
+        <div class="field">
+            <form action="https://www.ssllabs.com/ssltest/analyze.html" target="_blank">
+                <input id="ssltest_domain" type="hidden" name="d" value="foobar.com">
+                <input class="btn-primary btn-lg btn blue" type="submit" value="Test your Olynx SSL install"/>
+            </form>
+        </div></center><br/><br/>
+    </div>   
+<footer>
+    <center>COPYRIGHT 2018. "OLYNX SSL PROJECT" .</center>
+</footer>
+</div>
+</div>
+</div></main>
+<script src="aj-project/aneesh/aneesh.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
